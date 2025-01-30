@@ -1,0 +1,74 @@
+# ========================================
+# 🔹 .NET / C# (Backend)
+# ========================================
+bin/
+obj/
+*.suo
+*.user
+*.cache
+*.vs/
+*.vscode/
+*.csproj.user
+*.db
+appsettings*.json 
+
+# Logs
+logs/
+*.log
+
+# Dependências locais
+packages/
+*.nupkg
+*.snupkg
+
+# Rider (JetBrains IDE)
+.idea/
+
+# SQLite (caso use)
+*.sqlite
+*.sqlite3
+*.db-wal
+*.db-shm
+
+# Secrets (caso use secrets do .NET CLI)
+secrets.json
+
+# ========================================
+# 🔹 React / Frontend
+# ========================================
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+package-lock.json
+dist/
+build/
+
+# EditorConfig
+.eslintcache
+
+# ========================================
+# 🔹 Docker
+# ========================================
+.dockerignore
+docker-compose.override.yml
+
+# ========================================
+# 🔹 Sistema Operacional
+# ========================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ========================================
+# 🔹 IDEs e Ferramentas
+# ========================================
+.vscode/
+.idea/
+*.sln.docstates
+*.swp
+
+# ========================================
+# 🔹 Git
+# ========================================
+*.orig
