@@ -4,18 +4,19 @@ using OrderManagement.Domain.Enums;
 
 namespace OrderManagement.Application.Commands
 {
-    public class CreateOrderCommand : IRequest<Order>
+    public class UpdateOrderByIdCommand : IRequest<Order>
     {
+        public Guid Id { get; set; }
         public Guid CustomerId { get; set; }
-        public List<OrderItem> Items { get; set; }
-        public decimal TotalAmount { get; set; }
         public DateTime OrderDate { get; set; }
+        public decimal TotalAmount { get; set; }
         public OrderStatus Status { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
 
-        public CreateOrderCommand(Order order)
+        public UpdateOrderByIdCommand(Order order)
         {
             CustomerId = order.CustomerId;
-            Items = order.OrderItems;
+            OrderItems = order.OrderItems;
             TotalAmount = order.TotalAmount;
             OrderDate = order.OrderDate;
             Status = order.Status;

@@ -82,7 +82,8 @@ namespace OrderManagement.Infrastructure.Data
                     ProductId = Guid.Parse("f04acbb2-9c97-4fae-853b-e1c1e52715a2"),
                     ProductName = "Product A",
                     Quantity = 2,
-                    UnitPrice = 100.00m
+                    UnitPrice = 100.00m,
+                    TotalPrice = 200.00m
                 },
                 new OrderItem
                 {
@@ -91,7 +92,8 @@ namespace OrderManagement.Infrastructure.Data
                     ProductId = Guid.Parse("1a44f41f-b7d2-41c9-9497-0bc2c1a2613b"),
                     ProductName = "Product B",
                     Quantity = 3,
-                    UnitPrice = 150.00m
+                    UnitPrice = 150.00m,
+                    TotalPrice = 450.00m
                 }
             );
         }

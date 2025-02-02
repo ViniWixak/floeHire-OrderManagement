@@ -27,7 +27,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddTransient<IRequestHandler<GetOrderByIdQuery, Order>, GetOrderByIdQueryHandler>();
+builder.Services.AddTransient<IRequestHandler<GetAllOrdersQuery, List<Order>>, GetAllOrdersQueryHandler>();
 builder.Services.AddScoped<IRequestHandler<CreateOrderCommand, Order>, CreateOrderCommandHandler>();
+builder.Services.AddScoped<IRequestHandler<DeleteOrderByIdCommand, Order>, DeleteOrderByIdCommandHandler>();
+builder.Services.AddScoped<IRequestHandler<UpdateOrderByIdCommand, Order>, UpdateOrderByIdCommandHandler>();
 
 builder.Services.AddCors(options =>
 {

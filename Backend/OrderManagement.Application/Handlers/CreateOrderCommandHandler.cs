@@ -22,7 +22,8 @@ namespace OrderManagement.Application.Handlers
                 CustomerId = request.CustomerId,
                 OrderDate = request.OrderDate,
                 TotalAmount = request.TotalAmount,
-                OrderItems = request.Items
+                OrderItems = request.Items,
+                Status = request.Status                
             };
 
             await _orderRepository.AddOrderAsync(order);

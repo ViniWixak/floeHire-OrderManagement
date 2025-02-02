@@ -7,6 +7,7 @@ namespace OrderManagement.Domain.Interfaces
         Task AddOrderAsync(Order order);
         Task UpdateOrderAsync(Order order);
         Task DeleteOrderAsync(Guid orderId);
+        Task UpdateOrderStatus(Order order);
 
         Task<Order> GetOrderByIdAsync(Guid orderId);
         Task<Order> GetOrderDatailsByIdAsync(Guid orderId);

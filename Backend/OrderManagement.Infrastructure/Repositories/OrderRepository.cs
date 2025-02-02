@@ -113,6 +113,11 @@ namespace OrderManagement.Infrastructure.Repositories
                 throw new ApplicationException("An error occurred while retrieving orders by customer ID", ex);
             }
         }
+
+        Task IOrderRepository.UpdateOrderStatus(Order order)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }
