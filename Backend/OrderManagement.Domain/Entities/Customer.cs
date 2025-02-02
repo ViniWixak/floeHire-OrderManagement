@@ -1,6 +1,6 @@
 ﻿namespace OrderManagement.Domain.Entities
 {
-    internal class Customer
+    public class Customer
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
