@@ -4,7 +4,7 @@ using OrderManagement.Application.Queries;
 using OrderManagement.Domain.Entities;
 using OrderManagement.Domain.Interfaces;
 
-namespace OrderManagement.Application.Handlers
+namespace OrderManagement.Application.Handlers.Orders
 {
     public class DeleteOrderByIdCommandHandler : IRequestHandler<DeleteOrderByIdCommand, Order>
     {

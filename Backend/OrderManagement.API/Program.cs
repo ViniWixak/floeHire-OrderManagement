@@ -5,12 +5,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using OrderManagement.Application.Commands;
-using OrderManagement.Application.Handlers;
+using OrderManagement.Application.Handlers.Orders;
 using OrderManagement.Application.Queries;
 using OrderManagement.Domain.Entities;
 using OrderManagement.Domain.Interfaces;
 using OrderManagement.Infrastructure.Data;
 using OrderManagement.Infrastructure.Repositories;
+using OrderManagement.Application.Handlers.Products;
+using ProductManagement.Application.Handlers.Products;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +33,12 @@ builder.Services.AddTransient<IRequestHandler<GetAllOrdersQuery, List<Order>>, G
 builder.Services.AddScoped<IRequestHandler<CreateOrderCommand, Order>, CreateOrderCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<DeleteOrderByIdCommand, Order>, DeleteOrderByIdCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<UpdateOrderByIdCommand, Order>, UpdateOrderByIdCommandHandler>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddTransient<IRequestHandler<GetAllProductsQuery, List<Product>>, GetAllProductsQueryHandler>(); 
+builder.Services.AddTransient<IRequestHandler<GetProductByIdQuery, Product>, GetProductByIdQueryHandler>();
+builder.Services.AddScoped<IRequestHandler<UpdateProductByIdCommand, Product>, UpdateProductByIdCommandHandler>();
+builder.Services.AddScoped<IRequestHandler<CreateProductCommand, Product>, CreateProductCommandHandler>();
+builder.Services.AddScoped<IRequestHandler<DeleteProductByIdCommand, Product>, DeleteProductByIdCommandHandler>();
 
 builder.Services.AddCors(options =>
 {

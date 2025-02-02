@@ -3,7 +3,7 @@ using OrderManagement.Application.Commands;
 using OrderManagement.Domain.Entities;
 using OrderManagement.Domain.Interfaces;
 
-namespace OrderManagement.Application.Handlers
+namespace OrderManagement.Application.Handlers.Orders
 {
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Order>
     {
@@ -23,7 +23,7 @@ namespace OrderManagement.Application.Handlers
                 OrderDate = request.OrderDate,
                 TotalAmount = request.TotalAmount,
                 OrderItems = request.Items,
-                Status = request.Status                
+                Status = request.Status
             };
 
             await _orderRepository.AddOrderAsync(order);

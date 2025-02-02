@@ -3,7 +3,7 @@ using OrderManagement.Application.Queries;
 using OrderManagement.Domain.Entities;
 using OrderManagement.Domain.Interfaces;
 
-namespace OrderManagement.Application.Handlers
+namespace OrderManagement.Application.Handlers.Orders
 {
     public class GetAllOrdersQueryHandler : IRequestHandler<GetAllOrdersQuery, List<Order>>
     {

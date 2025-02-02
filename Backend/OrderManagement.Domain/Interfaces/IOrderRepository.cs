@@ -12,7 +12,6 @@ namespace OrderManagement.Domain.Interfaces
         Task<Order> GetOrderByIdAsync(Guid orderId);
         Task<Order> GetOrderDatailsByIdAsync(Guid orderId);
         Task<IEnumerable<Order>> GetAllOrdersAsync();
-        Task<IEnumerable<Order>> GetOrdersByCustomerIdAsync(Guid customerId);
     }
 
 }

@@ -21,11 +21,11 @@ namespace OrderManagement.Infrastructure.Repositories
         {
             try
             {
-                return await _context.Orders.FirstOrDefaultAsync(o => o.Id == id) ?? throw new InvalidOperationException("Order not found");
+                return await _context.Orders.FirstOrDefaultAsync(o => o.Id == id) ?? throw new InvalidOperationException("Pedido não encontrada");
             }
             catch (Exception ex)
             {                
-                throw new ApplicationException("An error occurred while retrieving the order", ex);
+                throw new ApplicationException("Ocorreu um erro ao obter pedido: ", ex);
             }
         }
 
@@ -38,7 +38,7 @@ namespace OrderManagement.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("An error occurred while adding the order", ex);
+                throw new ApplicationException("Ocorreu um erro ao adicionar pedido: ", ex);
             }
         }
 
@@ -48,11 +48,11 @@ namespace OrderManagement.Infrastructure.Repositories
             {
                 return await _context.Orders
                     .Include(o => o.OrderItems)
-                    .FirstOrDefaultAsync(o => o.Id == id) ?? throw new InvalidOperationException("Order not found");
+                    .FirstOrDefaultAsync(o => o.Id == id) ?? throw new InvalidOperationException("Pedido não encontrado");
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("An error occurred while retrieving the order details", ex);
+                throw new ApplicationException("Ocorreu um erro ao bucar itens do pedido: ", ex);
             }
         }
 
@@ -69,7 +69,7 @@ namespace OrderManagement.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("An error occurred while updating the order", ex);
+                throw new ApplicationException("Ocorreu um erro ao atualizar o pedido", ex);
             }
         }
 
@@ -86,7 +86,7 @@ namespace OrderManagement.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("An error occurred while deleting the order", ex);
+                throw new ApplicationException("Ocorreu um erro ao deletar o pedido: ", ex);
             }
         }
 
@@ -98,25 +98,30 @@ namespace OrderManagement.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("An error occurred while retrieving all orders", ex);
+                throw new ApplicationException("Ocorreu um erro ao buscar todos os pedidos: ", ex);
             }
         }
 
-        public async Task<IEnumerable<Order>> GetOrdersByCustomerIdAsync(Guid customerId)
+        public async Task UpdateOrderStatus(Order order)
         {
             try
             {
-                return await _context.Orders.Where(o => o.CustomerId == customerId).ToListAsync();
+                var existingOrder = await _context.Orders.FindAsync(order.Id);
+                if (existingOrder != null)
+                {
+                    existingOrder.Status = order.Status;
+                    _context.Orders.Update(existingOrder);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    throw new InvalidOperationException("Pedido não encontrado");
+                }
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("An error occurred while retrieving orders by customer ID", ex);
+                throw new ApplicationException("Ocorreu um erro ao atualizar o status do pedido: ", ex);
             }
-        }
-
-        Task IOrderRepository.UpdateOrderStatus(Order order)
-        {
-            throw new NotImplementedException();
         }
     }
 

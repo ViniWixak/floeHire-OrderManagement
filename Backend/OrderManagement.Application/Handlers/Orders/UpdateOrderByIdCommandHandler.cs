@@ -4,7 +4,7 @@ using OrderManagement.Application.Queries;
 using OrderManagement.Domain.Entities;
 using OrderManagement.Domain.Interfaces;
 
-namespace OrderManagement.Application.Handlers
+namespace OrderManagement.Application.Handlers.Orders
 {
     public class UpdateOrderByIdCommandHandler : IRequestHandler<UpdateOrderByIdCommand, Order>
     {
@@ -17,24 +17,20 @@ namespace OrderManagement.Application.Handlers
 
         public async Task<Order> Handle(UpdateOrderByIdCommand request, CancellationToken cancellationToken)
         {
-            var originalOrder = await _orderRepository.GetOrderByIdAsync(request.Id);
-            if (originalOrder == null)
+            var order = await _orderRepository.GetOrderByIdAsync(request.Id);
+            if (order == null)
             {
                 return null;
             }
 
-            var updatedOrder = new Order
-            {
-                Id = originalOrder.Id,
-                CustomerId = request.CustomerId,
-                OrderDate = request.OrderDate,
-                TotalAmount = request.TotalAmount,
-                OrderItems = request.OrderItems,
-                Status = request.Status
-            };
-
-            await _orderRepository.UpdateOrderAsync(updatedOrder);
-            return updatedOrder;
+            order.CustomerId = request.CustomerId;
+            order.OrderDate = request.OrderDate;
+            order.TotalAmount = request.TotalAmount;
+            order.OrderItems = request.OrderItems;
+            order.Status = request.Status;
+            
+            await _orderRepository.UpdateOrderAsync(order);
+            return order;
         }
     }
 }
