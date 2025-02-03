@@ -1,9 +1,6 @@
-using System;
 using System.Reflection;
 using MediatR;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using OrderManagement.Application.Commands;
 using OrderManagement.Application.Handlers.Orders;
 using OrderManagement.Application.Queries;
@@ -14,6 +11,9 @@ using OrderManagement.Infrastructure.Repositories;
 using OrderManagement.Application.Handlers.Products;
 using ProductManagement.Application.Handlers.Products;
 using OrderManagement.Application.Handlers.OderItems;
+using OrderManagement.Infrastructure.Configuration;
+using MongoDB.Driver;
+using OrderManagement.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +28,19 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); 
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+var mongoSettings = builder.Configuration.GetSection("MongoSettings").Get<MongoDbSettings>();
+builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoSettings"));
+
+var mongoClient = new MongoClient(builder.Configuration["MongoSettings:ConnectionString"]);
+var database = mongoClient.GetDatabase("OrderDb");
+
+builder.Services.AddSingleton(database);
+
+builder.Services.AddScoped<IOrderWriteRepository, OrderWriteRepository>();
+builder.Services.AddScoped<IOrderReadRepository, OrderReadRepository>();
+builder.Services.AddScoped<IOrderSyncService, OrderSyncService>();
+
 
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddTransient<IRequestHandler<GetOrderByIdQuery, Order>, GetOrderByIdQueryHandler>();

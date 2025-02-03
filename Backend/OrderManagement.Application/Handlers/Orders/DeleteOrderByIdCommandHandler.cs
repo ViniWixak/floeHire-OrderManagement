@@ -9,10 +9,12 @@ namespace OrderManagement.Application.Handlers.Orders
     public class DeleteOrderByIdCommandHandler : IRequestHandler<DeleteOrderByIdCommand, Order>
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IOrderSyncService _orderSyncService;
 
-        public DeleteOrderByIdCommandHandler(IOrderRepository orderRepository)
+        public DeleteOrderByIdCommandHandler(IOrderRepository orderRepository, IOrderSyncService orderSyncService)
         {
             _orderRepository = orderRepository;
+            _orderSyncService = orderSyncService;
         }
 
         public async Task<Order> Handle(DeleteOrderByIdCommand request, CancellationToken cancellationToken)
@@ -24,6 +26,9 @@ namespace OrderManagement.Application.Handlers.Orders
             }
 
             await _orderRepository.DeleteOrderAsync(request.Id);
+
+            await _orderSyncService.DeleteOrderFromMongo(request.Id);
+
             return order;
         }
     }

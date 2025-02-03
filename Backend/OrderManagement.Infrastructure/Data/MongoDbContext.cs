@@ -10,7 +10,7 @@ namespace OrderManagement.Infrastructure.Data
 
         public MongoDbContext(IConfiguration configuration)
         {
-            var client = new MongoClient(configuration.GetConnectionString("MongoDb"));
+            var client = new MongoClient(configuration["MongoSettings:ConnectionString"]);
             _database = client.GetDatabase("OrderManagementDb");
         }
 
