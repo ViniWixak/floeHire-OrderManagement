@@ -18,6 +18,7 @@ namespace OrderManagement.Application.Handlers.Products
         {
             var product = new Product
             {
+                Id = Guid.NewGuid(),
                 Name = request.Name,
                 Price = request.Price,
             };

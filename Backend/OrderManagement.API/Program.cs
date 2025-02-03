@@ -13,6 +13,7 @@ using OrderManagement.Infrastructure.Data;
 using OrderManagement.Infrastructure.Repositories;
 using OrderManagement.Application.Handlers.Products;
 using ProductManagement.Application.Handlers.Products;
+using OrderManagement.Application.Handlers.OderItems;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,24 +22,31 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
 
 builder.Services.AddSingleton<MongoDbContext>();
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); 
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddTransient<IRequestHandler<GetOrderByIdQuery, Order>, GetOrderByIdQueryHandler>();
 builder.Services.AddTransient<IRequestHandler<GetAllOrdersQuery, List<Order>>, GetAllOrdersQueryHandler>();
 builder.Services.AddScoped<IRequestHandler<CreateOrderCommand, Order>, CreateOrderCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<DeleteOrderByIdCommand, Order>, DeleteOrderByIdCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<UpdateOrderByIdCommand, Order>, UpdateOrderByIdCommandHandler>();
+
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddTransient<IRequestHandler<GetAllProductsQuery, List<Product>>, GetAllProductsQueryHandler>(); 
 builder.Services.AddTransient<IRequestHandler<GetProductByIdQuery, Product>, GetProductByIdQueryHandler>();
 builder.Services.AddScoped<IRequestHandler<UpdateProductByIdCommand, Product>, UpdateProductByIdCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<CreateProductCommand, Product>, CreateProductCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<DeleteProductByIdCommand, Product>, DeleteProductByIdCommandHandler>();
+
+builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+builder.Services.AddTransient<IRequestHandler<GetOrderItemsQuery, IEnumerable<OrderItem>>, GetOrderItemsQueryHandler>();
+builder.Services.AddScoped<IRequestHandler<CreateOrderItemCommand, OrderItem>, CreateOrderItemCommandHandler>();
+builder.Services.AddScoped<IRequestHandler<DeleteOrderItemCommand, OrderItem>, DeleteOrderItemCommandHandler>();
 
 builder.Services.AddCors(options =>
 {
