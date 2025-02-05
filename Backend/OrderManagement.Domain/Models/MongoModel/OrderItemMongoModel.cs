@@ -3,31 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
-namespace OrderManagement.Domain.ReadModel
+namespace OrderManagement.Domain.Models.MongoModel
 {
-    public class OrderMongoModel
+    public class OrderItemMongoModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string? Id { get; set; } // ID do MongoDB
-
+        public string Id { get; set; } = string.Empty;
         [BsonRepresentation(BsonType.String)]
-        public Guid OrderId { get; set; } // ID original do pedido no SQL Server
-
-        public DateTime OrderDate { get; set; }
-
-        public decimal TotalAmount { get; set; }
-
-        public string Status { get; set; } = string.Empty;
-
-        public List<OrderItemReadModel> OrderItems { get; set; } = new();
-    }
-
-    public class OrderItemReadModel
-    {
+        public Guid OrderId { get; set; }
         [BsonRepresentation(BsonType.String)]
         public Guid ProductId { get; set; }
         public string ProductName { get; set; } = string.Empty;

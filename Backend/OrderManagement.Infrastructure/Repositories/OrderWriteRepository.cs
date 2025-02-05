@@ -1,7 +1,6 @@
 ﻿using MongoDB.Driver;
-using OrderManagement.Domain.Entities;
-using OrderManagement.Domain.Interfaces;
-using OrderManagement.Domain.ReadModel;
+using OrderManagement.Domain.Interfaces.Mongo;
+using OrderManagement.Domain.Models.MongoModel;
 
 namespace OrderManagement.Infrastructure.Repositories
 {

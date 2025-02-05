@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using OrderManagement.Domain.Interfaces;
-using OrderManagement.Domain.ReadModel;
+using OrderManagement.Domain.Interfaces.Mongo;
+using OrderManagement.Domain.Models.MongoModel;
 using OrderManagement.Infrastructure.Configuration;
 
 namespace OrderManagement.Infrastructure.Repositories
@@ -19,12 +19,26 @@ namespace OrderManagement.Infrastructure.Repositories
 
         public async Task<IEnumerable<OrderMongoModel>> GetAllOrdersAsync()
         {
-            return await _ordersCollection.Find(_ => true).ToListAsync();
+            try
+            {
+                return await _ordersCollection.Find(_ => true).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Ocorreu um erro ao buscar todas as ordens no MongoDb.", ex);
+            }
         }
 
         public async Task<OrderMongoModel?> GetOrderByIdAsync(Guid orderId)
         {
-            return await _ordersCollection.Find(o => o.OrderId == orderId).FirstOrDefaultAsync();
+            try
+            {
+                return await _ordersCollection.Find(o => o.OrderId == orderId).FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException($"Ocorreu um erro ao buscar a ordem com ID {orderId} no MongoDb.", ex);
+            }
         }
 
     }

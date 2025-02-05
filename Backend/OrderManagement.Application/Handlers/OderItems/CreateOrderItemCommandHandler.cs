@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using OrderManagement.Application.Commands;
-using OrderManagement.Application.Queries;
 using OrderManagement.Domain.Entities;
 using OrderManagement.Domain.Interfaces;
+using OrderManagement.Domain.Interfaces.Mongo;
+using OrderManagement.Domain.Models.MongoModel;
 
 namespace OrderManagement.Application.Handlers.OderItems
 {
@@ -15,11 +11,13 @@ namespace OrderManagement.Application.Handlers.OderItems
     {
         private readonly IOrderItemRepository _orderItemRepository;
         private readonly IProductRepository _productRepository;
+        private readonly IOrderItemWriteRepository _orderItemWriteRepository;
 
-        public CreateOrderItemCommandHandler(IOrderItemRepository orderItemRepository, IProductRepository productRepository)
+        public CreateOrderItemCommandHandler(IOrderItemRepository orderItemRepository, IProductRepository productRepository, IOrderItemWriteRepository orderItemWriteRepository)
         {
             _orderItemRepository = orderItemRepository;
             _productRepository = productRepository;
+            _orderItemWriteRepository = orderItemWriteRepository;
         }
 
         public async Task<OrderItem> Handle(CreateOrderItemCommand request, CancellationToken cancellationToken)
@@ -42,7 +40,19 @@ namespace OrderManagement.Application.Handlers.OderItems
                 TotalPrice = product.Price * request.Quantity
             };
 
+            var orderItemReadModel = new OrderItemMongoModel
+            {
+                Id = orderItem.Id.ToString(),
+                OrderId = orderItem.OrderId,
+                ProductId = orderItem.ProductId,
+                ProductName = orderItem.ProductName,
+                Quantity = orderItem.Quantity,
+                UnitPrice = orderItem.UnitPrice,
+                TotalPrice = orderItem.TotalPrice
+            };
+
             await _orderItemRepository.AddOrderItemAsync(orderItem);
+            await _orderItemWriteRepository.AddOrderItemAsync(orderItemReadModel);
 
             return orderItem;
         }

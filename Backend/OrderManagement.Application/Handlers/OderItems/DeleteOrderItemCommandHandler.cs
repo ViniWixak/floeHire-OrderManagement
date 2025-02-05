@@ -7,16 +7,19 @@ using MediatR;
 using OrderManagement.Application.Commands;
 using OrderManagement.Domain.Entities;
 using OrderManagement.Domain.Interfaces;
+using OrderManagement.Domain.Interfaces.Mongo;
 
 namespace OrderManagement.Application.Handlers.OderItems
 {
     public class DeleteOrderItemCommandHandler : IRequestHandler<DeleteOrderItemCommand, OrderItem>
     {
         private readonly IOrderItemRepository _orderItemRepository;
+        private readonly IOrderItemWriteRepository _orderItemWriteRepository;
 
-        public DeleteOrderItemCommandHandler(IOrderItemRepository orderItemRepository)
+        public DeleteOrderItemCommandHandler(IOrderItemRepository orderItemRepository, IOrderItemWriteRepository orderItemWriteRepository)
         {
             _orderItemRepository = orderItemRepository;
+            _orderItemWriteRepository = orderItemWriteRepository;
         }
 
         public async Task<OrderItem> Handle(DeleteOrderItemCommand request, CancellationToken cancellationToken)
@@ -30,6 +33,7 @@ namespace OrderManagement.Application.Handlers.OderItems
             }
 
             await _orderItemRepository.DeleteOrderItemAsync(orderItem.Id);
+            await _orderItemWriteRepository.DeleteOrderItemAsync(orderItem.Id.ToString());
 
             return orderItem;
         }

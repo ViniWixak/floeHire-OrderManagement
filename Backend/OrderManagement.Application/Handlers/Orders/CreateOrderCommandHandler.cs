@@ -2,7 +2,7 @@
 using OrderManagement.Application.Commands;
 using OrderManagement.Domain.Entities;
 using OrderManagement.Domain.Interfaces;
-using OrderManagement.Domain.ReadModel;
+using OrderManagement.Domain.Models.MongoModel;
 
 namespace OrderManagement.Application.Handlers.Orders
 {
@@ -38,7 +38,7 @@ namespace OrderManagement.Application.Handlers.Orders
                 OrderId = order.Id,
                 OrderDate = order.OrderDate,
                 TotalAmount = order.TotalAmount,
-                OrderItems = order.OrderItems.Select(item => new OrderItemReadModel
+                OrderItems = order.OrderItems.Select(item => new OrderItemMongoModel
                 {
                     ProductId = item.ProductId,
                     ProductName = item.ProductName,

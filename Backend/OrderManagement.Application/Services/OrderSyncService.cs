@@ -1,8 +1,6 @@
-﻿
-using System.Threading.Tasks;
-using OrderManagement.Domain.Entities;
-using OrderManagement.Domain.Interfaces;
-using OrderManagement.Domain.ReadModel;
+﻿using OrderManagement.Domain.Interfaces;
+using OrderManagement.Domain.Interfaces.Mongo;
+using OrderManagement.Domain.Models.MongoModel;
 
 namespace OrderManagement.Application.Services
 {

@@ -14,6 +14,8 @@ using OrderManagement.Application.Handlers.OderItems;
 using OrderManagement.Infrastructure.Configuration;
 using MongoDB.Driver;
 using OrderManagement.Application.Services;
+using OrderManagement.Domain.Interfaces.Mongo;
+using OrderManagement.Domain.Models.MongoModel;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +41,9 @@ builder.Services.AddSingleton(database);
 
 builder.Services.AddScoped<IOrderWriteRepository, OrderWriteRepository>();
 builder.Services.AddScoped<IOrderReadRepository, OrderReadRepository>();
+builder.Services.AddSingleton<IOrderItemReadRepository, OrderItemReadRepository>();
+builder.Services.AddSingleton<IOrderItemWriteRepository, OrderItemWriteRepository>();
+
 builder.Services.AddScoped<IOrderSyncService, OrderSyncService>();
 
 
@@ -60,6 +65,8 @@ builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 builder.Services.AddTransient<IRequestHandler<GetOrderItemsQuery, IEnumerable<OrderItem>>, GetOrderItemsQueryHandler>();
 builder.Services.AddScoped<IRequestHandler<CreateOrderItemCommand, OrderItem>, CreateOrderItemCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<DeleteOrderItemCommand, OrderItem>, DeleteOrderItemCommandHandler>();
+
+builder.Services.AddTransient<IRequestHandler<GetAllOrdersFromMongoQuery, IEnumerable<OrderMongoModel>>, GetAllOrdersFromMongoQueryHandler>();
 
 builder.Services.AddCors(options =>
 {

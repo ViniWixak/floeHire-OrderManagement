@@ -1,7 +1,6 @@
-﻿using OrderManagement.Domain.Entities;
-using OrderManagement.Domain.ReadModel;
+﻿using OrderManagement.Domain.Models.MongoModel;
 
-namespace OrderManagement.Domain.Interfaces
+namespace OrderManagement.Domain.Interfaces.Mongo
 {
     public interface IOrderReadRepository
     {

@@ -1,5 +1,4 @@
-﻿using OrderManagement.Domain.Entities;
-using OrderManagement.Domain.ReadModel;
+﻿using OrderManagement.Domain.Models.MongoModel;
 
 namespace OrderManagement.Domain.Interfaces
 {
