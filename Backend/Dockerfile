@@ -7,7 +7,7 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copiar os arquivos .csproj para o contexto correto
+# Copiar os arquivos .csproj 
 COPY ["Backend/OrderManagement.API/OrderManagement.API.csproj", "OrderManagement.API/"]
 COPY ["Backend/OrderManagement.Application/OrderManagement.Application.csproj", "OrderManagement.Application/"]
 COPY ["Backend/OrderManagement.Domain/OrderManagement.Domain.csproj", "OrderManagement.Domain/"]
@@ -20,12 +20,12 @@ RUN dotnet restore "OrderManagement.API/OrderManagement.API.csproj"
 COPY . .
 
 # Definir o diretório de trabalho
-WORKDIR "/src/OrderManagement/OrderManagement.API"
+WORKDIR "/src/OrderManagement.API"
 RUN dotnet build "OrderManagement.API.csproj" -c Release -o /app/build
 
 # Etapa 3: Publish
 FROM build AS publish
-RUN dotnet publish "OrderManagement/OrderManagement.API/OrderManagement.API.csproj" -c Release -o /app/publish
+RUN dotnet publish "src/OrderManagement.API/OrderManagement.API.csproj" -c Release -o /app/publish
 
 # Etapa 4: Runtime (produção)
 FROM base AS final
