@@ -4,8 +4,8 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["OrderManagement/OrderManagement.csproj", "OrderManagement/"]
-RUN dotnet restore "OrderManagement/OrderManagement.csproj"
+COPY ["OrderManagement.API/OrderManagement.API.csproj", "OrderManagement.API/"]
+RUN dotnet restore "OrderManagement.API/OrderManagement.API.csproj"
 COPY . .
 WORKDIR "/src/OrderManagement"
 RUN dotnet build "OrderManagement.csproj" -c Release -o /app/build
