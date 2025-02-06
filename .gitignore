@@ -10,7 +10,6 @@ obj/
 *.vscode/
 *.csproj.user
 *.db
-appsettings*.json 
 
 # Logs
 logs/
