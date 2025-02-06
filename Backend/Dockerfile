@@ -24,7 +24,8 @@ WORKDIR "/src/OrderManagement.API"
 RUN dotnet build "OrderManagement.API.csproj" -c Release -o /app/build
 
 # Etapa 3: Publish
-FROM build AS publish
+FROM build AS 
+WORKDIR /src/OrderManagement.API
 RUN dotnet publish "src/OrderManagement.API/OrderManagement.API.csproj" -c Release -o /app/publish
 
 # Etapa 4: Runtime (produção)
