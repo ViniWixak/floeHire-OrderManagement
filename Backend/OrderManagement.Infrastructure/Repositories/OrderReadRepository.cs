@@ -10,36 +10,22 @@ namespace OrderManagement.Infrastructure.Repositories
     {
         private readonly IMongoCollection<OrderMongoModel> _ordersCollection;
 
-        public OrderReadRepository(IOptions<MongoDbSettings> mongoDbSettings)
+        public OrderReadRepository(IMongoClient mongoClient, string databaseName)
         {
-            var mongoClient = new MongoClient(mongoDbSettings.Value.ConnectionString);
-            var mongoDatabase = mongoClient.GetDatabase(mongoDbSettings.Value.DatabaseName);
-            _ordersCollection = mongoDatabase.GetCollection<OrderMongoModel>(mongoDbSettings.Value.OrdersCollection);
+            var database = mongoClient.GetDatabase(databaseName);
+            _ordersCollection = database.GetCollection<OrderMongoModel>("Orders");
         }
 
         public async Task<IEnumerable<OrderMongoModel>> GetAllOrdersAsync()
         {
-            try
-            {
-                return await _ordersCollection.Find(_ => true).ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException("Ocorreu um erro ao buscar todas as ordens no MongoDb.", ex);
-            }
+            var orders = await _ordersCollection.FindAsync(order => true);
+            return orders.ToList();
         }
 
         public async Task<OrderMongoModel?> GetOrderByIdAsync(Guid orderId)
         {
-            try
-            {
-                return await _ordersCollection.Find(o => o.OrderId == orderId).FirstOrDefaultAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException($"Ocorreu um erro ao buscar a ordem com ID {orderId} no MongoDb.", ex);
-            }
+            var order = await _ordersCollection.FindAsync(order => order.OrderId == orderId);
+            return order.FirstOrDefault();
         }
-
     }
 }

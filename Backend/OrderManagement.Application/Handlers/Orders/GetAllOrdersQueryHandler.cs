@@ -17,7 +17,7 @@ namespace OrderManagement.Application.Handlers.Orders
         public async Task<List<Order>> Handle(GetAllOrdersQuery request, CancellationToken cancellationToken)
         {
             var orders = await _orderRepository.GetAllOrdersAsync();
-            return orders.ToList();
+            return orders?.ToList() ?? new List<Order>();
         }
     }
 }
