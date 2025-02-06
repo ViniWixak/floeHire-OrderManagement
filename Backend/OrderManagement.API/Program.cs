@@ -34,13 +34,20 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.Get
 var mongoSettings = builder.Configuration.GetSection("MongoSettings").Get<MongoDbSettings>();
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoSettings"));
 
-var mongoClient = new MongoClient(builder.Configuration["MongoSettings:ConnectionString"]);
+var mongoClient = new MongoClient(mongoSettings.ConnectionString);
 var database = mongoClient.GetDatabase("OrderDb");
 
+builder.Services.AddSingleton<IMongoClient>(mongoClient);
 builder.Services.AddSingleton(database);
 
 builder.Services.AddScoped<IOrderWriteRepository, OrderWriteRepository>();
-builder.Services.AddScoped<IOrderReadRepository, OrderReadRepository>();
+builder.Services.AddScoped<IOrderReadRepository, OrderReadRepository>(provider =>
+{
+    var mongoClient = provider.GetRequiredService<IMongoClient>();
+    var databaseName = provider.GetRequiredService<IConfiguration>().GetSection("MongoSettings").Get<MongoDbSettings>().DatabaseName;
+    return new OrderReadRepository(mongoClient, databaseName);
+});
+
 builder.Services.AddSingleton<IOrderItemReadRepository, OrderItemReadRepository>();
 builder.Services.AddSingleton<IOrderItemWriteRepository, OrderItemWriteRepository>();
 
