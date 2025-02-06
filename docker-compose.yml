@@ -12,7 +12,7 @@ services:
         - MongoDB__ConnectionString=mongodb://mongo:27017
         - SqlServer__ConnectionString=Server=sqlserver;Database=OrderDb;User Id=sa;Password=Password1234;Encrypt=True;TrustServerCertificate=True;
       depends_on:
-        - mongo
+        - mongodb
         - sqlserver
 
   sqlserver:
