@@ -1,21 +1,34 @@
+# Etapa 1: Base (runtime)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
 
+# Etapa 2: Build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["OrderManagement/OrderManagement.csproj", "OrderManagement/"]
-RUN dotnet restore "OrderManagement/OrderManagement.csproj"
+
+# Copiar os arquivos .csproj para o contexto correto
+COPY ["Backend/OrderManagement.API/OrderManagement.API.csproj", "OrderManagement.API/"]
+COPY ["Backend/OrderManagement.Application/OrderManagement.Application.csproj", "OrderManagement.Application/"]
+COPY ["Backend/OrderManagement.Domain/OrderManagement.Domain.csproj", "OrderManagement.Domain/"]
+COPY ["Backend/OrderManagement.Infrastructure/OrderManagement.Infrastructure.csproj", "OrderManagement.Infrastructure/"]
+
+# Restaurar pacotes
+RUN dotnet restore "OrderManagement.API/OrderManagement.API.csproj"
+
+# Copiar todos os arquivos restantes
 COPY . .
-WORKDIR "/src/OrderManagement"
-RUN dotnet build "OrderManagement.csproj" -c Release -o /app/build
 
-# Etapa 2: Publish
+# Definir o diretório de trabalho
+WORKDIR "/src/OrderManagement/OrderManagement.API"
+RUN dotnet build "OrderManagement.API.csproj" -c Release -o /app/build
+
+# Etapa 3: Publish
 FROM build AS publish
-RUN dotnet publish "OrderManagement.csproj" -c Release -o /app/publish
+RUN dotnet publish "OrderManagement/OrderManagement.API/OrderManagement.API.csproj" -c Release -o /app/publish
 
-# Etapa 3: Runtime
+# Etapa 4: Runtime (produção)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "OrderManagement.dll"]
+ENTRYPOINT ["dotnet", "OrderManagement.API.dll"]
