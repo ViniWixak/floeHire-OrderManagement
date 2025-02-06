@@ -9,8 +9,9 @@ WORKDIR /src
 
 # Copiar os arquivos .csproj
 COPY ["Backend/OrderManagement.API/OrderManagement.API.csproj", "OrderManagement.API/"]
-COPY ["Backend/OrderManagement.Application/OrderManagement.Application.csproj", "OrderManagement.Appli>COPY ["Backend/OrderManagement.Domain/OrderManagement.Domain.csproj", "OrderManagement.Domain/"]
-COPY ["Backend/OrderManagement.Infrastructure/OrderManagement.Infrastructure.csproj", "OrderManagement>
+COPY ["Backend/OrderManagement.Application/OrderManagement.Application.csproj", "OrderManagement.Application/"]
+COPY ["Backend/OrderManagement.Domain/OrderManagement.Domain.csproj", "OrderManagement.Domain/"]
+COPY ["Backend/OrderManagement.Infrastructure/OrderManagement.Infrastructure.csproj", "OrderManagement.Infrastructure/"]
 
 # Restaurar pacotes
 RUN dotnet restore "OrderManagement.API/OrderManagement.API.csproj"
