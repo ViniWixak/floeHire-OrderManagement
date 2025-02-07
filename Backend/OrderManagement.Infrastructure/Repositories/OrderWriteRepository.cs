@@ -51,7 +51,7 @@ namespace OrderManagement.Infrastructure.Repositories
                     OrderId = Guid.NewGuid(),
                     OrderDate = DateTime.Now,
                     TotalAmount = 26.00m,
-                    Status = "Completed",
+                    Status = "Shipped",
                     OrderItems = new List<OrderItemMongoModel>
                     {
                         new OrderItemMongoModel { ProductName = "Marguerita", UnitPrice = 26.00m, Quantity = 1 }
@@ -62,7 +62,7 @@ namespace OrderManagement.Infrastructure.Repositories
                     OrderId = Guid.NewGuid(),
                     OrderDate = DateTime.Now,
                     TotalAmount = 40.00m,
-                    Status = "Cancelled",
+                    Status = "Canceled",
                     OrderItems = new List<OrderItemMongoModel>
                     {
                         new OrderItemMongoModel { ProductName = "Quatro queijos", UnitPrice = 40.00m, Quantity = 1 }
