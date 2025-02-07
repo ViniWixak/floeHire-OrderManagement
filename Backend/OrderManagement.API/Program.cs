@@ -108,6 +108,11 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.MapControllers();
 
+using (var context = new AppDbContext())
+{
+    context.Database.EnsureCreated();  // Cria o banco de dados, caso não exista
+}
+
 using (var scope = app.Services.CreateScope())
 {
     var dataSeeder = scope.ServiceProvider.GetRequiredService<IOrderWriteRepository>();
