@@ -13,7 +13,7 @@ interface Product {
 
 export const Home = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const { cart, removeFromCart, clearCart } = useCart(); // Usa o carrinho do contexto
+  const { cart, removeFromCart, clearCart } = useCart(); 
 
 
   useEffect(() => {
@@ -36,18 +36,17 @@ export const Home = () => {
 
   const handleFinalizeOrder = () => {
     const orderData = cart.map((item) => ({
-      id: item.id,
-      name: item.name,
+      productId: item.id,
       quantity: item.quantity,
       totalPrice: item.price * item.quantity,
+      name: item.name
     }));
 
     const totalOrderPrice = orderData.reduce((acc, item) => acc + item.totalPrice, 0);
 
 
     const sendData = {
-      name: 'name usuario',
-      id: 'idUsuario',
+      id: 'ProductId',
       totalAmount: totalOrderPrice,
       products: orderData,
     }
@@ -74,6 +73,7 @@ export const Home = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Resposta do servidor:", data);
+    
     toast.success("Pedido finalizado com sucesso! 🎉", {
       position: "top-right",
       autoClose: 3000,

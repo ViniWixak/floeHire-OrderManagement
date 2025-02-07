@@ -64,7 +64,18 @@
         3 : { label: "Entregue" },
         4 : { label: "Cancelado" }
       };
-      return statusMap[status] || { label: "Desconhecido", color: "#BDBDBD", num: 0 };
+      return statusMap[status] || { label: "Desconhecido" };
+    };
+
+    const getTranslatedStatus = (status: string) => {
+      const statusMap: { [key: string]: { label: string } } = {
+        'Pendente' : { label: "Pending" },
+        'Pago': { label: "Paid" },
+        'Enviado': { label: "Shipped" },
+        'Entregue': { label: "Delivered" },
+        'Cancelado': { label: "Canceled" }
+      };
+      return statusMap[status] || { label: "Pending" };
     };
 
     const deleteOrder = (orderId: string) => {
@@ -112,20 +123,23 @@
       if (selectedOrder && newStatus !== null) {
         toast.success("Status do pedido atualizado!", { autoClose: 2000 });
         
-        const statusNum = getStatusInfo(newStatus).enumValue;
+        const status = getTranslatedStatus(newStatus).label;
+        const statusEnum = getStatusInfo(status);
         setNewStatus(newStatus);
-    
+
+        
         setStatusModalOpen(false);
-        console.log(getStatusInfo(newStatus).enumValue);
-        console.log(newStatus);
-    
-        fetch(`https://localhost:5235/api/Orders/${selectedOrder.orderId}/status`, {
+
+        fetch(`http://localhost:5235/api/Orders/${selectedOrder.orderId}/status`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ status: statusNum }), 
+          body: JSON.stringify({ status: statusEnum.enumValue }), 
         })
           .then(response => response.json())
-          .then(data => console.log("Pedido atualizado:", data))
+          .then(data => {
+            console.log("Pedido atualizado:", data);
+           // fetchOrders();  
+          })
           .catch(error => console.error("Erro ao atualizar pedido:", error));
       }
     };
