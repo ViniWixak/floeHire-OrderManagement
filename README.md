@@ -13,7 +13,7 @@ O projeto é dividido em:
   - Banco de dados NoSQL: **MongoDB** (para leitura otimizada de pedidos e itens).
   - API RESTful com endpoints para a criação e consulta de pedidos, itens e clientes.
   
-- **Frontend** (React) - A ser implementado.
+- **Frontend** (React).
   - Interface web para visualização, criação e manipulação de pedidos.
   - Comunicação com a API RESTful do backend.
 
@@ -39,19 +39,66 @@ O projeto é dividido em:
   - MongoDB
   - MediatR (para manipulação de comandos e consultas)
   
-- **Frontend (a ser implementado):**
-  - React
-  
+- **Frontend:**
+  - Tecnologias: React, Vite, TypeScript.
+  - Descrição: Aplicação frontend como SPA, que permite o gerenciamento de pedidos, visualização de produtos, administração de pedidos e interação com o carrinho de compras.
+  - Estrutura de Pastas:
+```
+frontend/
+  ├── Dockerfile
+  ├── README.md
+  ├── index.html
+  ├── package.json
+  ├── public
+  └── src
+     ├── App.css
+     ├── App.tsx
+     ├── assets
+     ├── components
+     ├── context
+     ├── index.css
+     ├── main.tsx
+     ├── pages
+     └── routes.tsx
+```
+- Principais Funcionalidades:
+  -  Home: Página inicial com visão geral dos pedidos e produtos.
+  -  Pedidos: Visualização dos pedidos realizados.
+  -  AdminPedidos e AdminProdutos: Páginas de administração para gerenciamento de pedidos e produtos.
+  -  Navbar: Componente de navegação presente em todas as páginas.
+  -  CartContext: Gerenciamento de estado para o carrinho de compras.
+  -  Rotas: Configuração da navegação da SPA definida em routes.tsx.
+
+
 ## Instruções para Rodar Localmente
 
 ### 1. Clonando o Repositório
 
-Primeiro, clone o repositório para sua máquina local:
+1. clone o repositório para sua máquina local:
 
 ```bash
-git clone https://github.com/seu-usuario/order-management-api.git
-cd order-management-api
+git clone [https://github.com/seu-usuario/order-management-api.git](https://github.com/ViniWixak/floeHire-OrderManagement.git)
 ```
+
+2. Navegue até a pasta do projeto:
+```bash
+cd floeHire-OrderManagement
+cd frontend
+```
+
+3. Instale as dependências:
+```bash
+npm install
+# ou
+yarn install
+```
+
+4. Inicie o servidor de desenvolvimento:
+```bash
+npm start
+```
+A aplicação será iniciada na URL padrão, geralmente http://localhost:3000.
+
 
 ### 2. Configuração do Ambiente Docker
 
@@ -72,6 +119,8 @@ docker-compose up     # Suba os containers
 
 O backend estará disponível em `http://localhost:5000`.
 
+O frontend estará disponível em `http://localhost:3000`.
+
 #### Configuração dos Bancos:
 
 - MongoDB estará disponível em `mongodb://localhost:27017`.
@@ -89,17 +138,13 @@ Agora você pode acessar a API através dos seguintes endpoints:
 - **GET /order-items**: Obter todos os itens de pedido.
 - **PUT /order-items/{id}**: Atualizar um item de pedido.
 
-### 5. Frontend (a ser implementado)
-
-O frontend será implementado em React. Ele irá interagir com a API RESTful para consumir e manipular os dados dos pedidos e clientes.
-
-### 6. Conexões com o MongoDB
+### 5. Conexões com o MongoDB
 
 Se você quiser verificar diretamente os dados no MongoDB, você pode usar o [MongoDB Compass](https://www.mongodb.com/products/compass) e conectar-se ao seu MongoDB local:
 
 - **URL de conexão:** `mongodb://localhost:27017`
 
-### 7. Testes
+### 6. Testes
 
 Os testes unitários estão implementados utilizando o framework **xUnit**. Para rodá-los, execute o seguinte comando:
 
@@ -127,5 +172,21 @@ OrderManagement/
 ├── docker-compose.yml          # Arquivo de configuração para orquestrar os containers
 ├── README.md                  # Este arquivo
 └── .git/                       # Repositório Git
+├──frontend/
+  ├── Dockerfile
+  ├── README.md
+  ├── index.html
+  ├── package.json
+  ├── public
+  └── src
+     ├── App.css
+     ├── App.tsx
+     ├── assets
+     ├── components
+     ├── context
+     ├── index.css
+     ├── main.tsx
+     ├── pages
+     └── routes.tsx
 ```
 
