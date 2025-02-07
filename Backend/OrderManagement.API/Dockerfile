@@ -33,4 +33,8 @@ RUN dotnet publish "OrderManagement.API.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-CMD dotnet ef database update --no-build && dotnet OrderManagement.API.dll
+#CMD dotnet ef database update --no-build && dotnet OrderManagement.API.dll
+COPY OrderManagement.API/scripts/entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+ENTRYPOINT ["/app/entrypoint.sh"]
