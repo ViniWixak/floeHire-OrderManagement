@@ -17,7 +17,7 @@ services:
       environment:
         - ASPNETCORE_ENVIRONMENT=Development
         - MongoDB__ConnectionString=mongodb://mongo:27017
-        - SqlServer__ConnectionString=Server=sqlserver;Database=OrderDb;User Id=sa;Password=Password1234;Encrypt=True;TrustServerCertificate=True;
+        - SqlServer__ConnectionString=Server=sqlserver;Database=OrderDb;User Id=sa;Password=Password1234;Encrypt=True;TrustServerCertificate=False;
       depends_on:
         - mongodb
         - sqlserver
