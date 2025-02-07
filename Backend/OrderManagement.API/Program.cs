@@ -108,8 +108,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.MapControllers();
 
-using (var context = new AppDbContext())
+using (var scope = app.Services.CreateScope())
 {
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     context.Database.EnsureCreated();  // Cria o banco de dados, caso não exista
 }
 
