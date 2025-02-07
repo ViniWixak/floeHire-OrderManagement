@@ -119,6 +119,8 @@ docker-compose up     # Suba os containers
 
 O backend estará disponível em `http://localhost:5000`.
 
+Se quiser rodar o frontend pelo docker deverá descomentar o serviço no docker-compose.yml primeiro
+
 O frontend estará disponível em `http://localhost:3000`.
 
 #### Configuração dos Bancos:
