@@ -110,12 +110,6 @@ app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    dbContext.Database.Migrate();  // Aplica as migrations pendentes
-}
-
-using (var scope = app.Services.CreateScope())
-{
     var dataSeeder = scope.ServiceProvider.GetRequiredService<IOrderWriteRepository>();
     await dataSeeder.SeedDataAsync();  // Seeder de dados no MongoDB
 }
