@@ -20,7 +20,7 @@ export const AdminProdutos = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/Products/products");
+        const response = await fetch("http://localhost:5000/api/Products/products");
         if (!response.ok) {
           throw new Error("Erro ao buscar produtos");
         }
@@ -70,7 +70,7 @@ export const AdminProdutos = () => {
       toast.success("Produto atualizado com sucesso!", { autoClose: 2000 });
 
       
-      fetch(`http://localhost:8080/api/Products/products/${selectedProduct.id}`, {
+      fetch(`http://localhost:5000/api/Products/products/${selectedProduct.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: productName, price: Number(productPrice) }),
@@ -85,7 +85,7 @@ export const AdminProdutos = () => {
       toast.success("Produto adicionado com sucesso!", { autoClose: 2000 });
 
       
-      fetch("http://localhost:8080/api/Products/products", {
+      fetch("http://localhost:5000/api/Products/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newProduct),
@@ -103,7 +103,7 @@ export const AdminProdutos = () => {
     toast.success("Produto excluído com sucesso!", { autoClose: 2000 });
 
     
-    fetch(`http://localhost:8080/api/Products/products/${id}`, {
+    fetch(`http://localhost:5000/api/Products/products/${id}`, {
       method: "DELETE",
     })
     .then(response => {

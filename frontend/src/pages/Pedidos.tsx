@@ -25,7 +25,7 @@ export const Pedidos = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/OrderRead");
+        const response = await fetch("http://localhost:5000/api/OrderRead");
         if (!response.ok) {
           throw new Error("Erro ao buscar pedidos");
         }

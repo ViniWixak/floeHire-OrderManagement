@@ -1,12 +1,4 @@
 services:
-  frontend:
-      build:
-        context: ./frontend
-        dockerfile: Dockerfile
-      ports:
-        - "3000:5174"
-      depends_on:
-        - backend
 
   backend:
       build:
@@ -17,10 +9,21 @@ services:
       environment:
         - ASPNETCORE_ENVIRONMENT=Development
         - MongoDB__ConnectionString=mongodb://mongo:27017
-        - SqlServer__ConnectionString=Server=sqlserver;Database=OrderDb;User Id=sa;Password=Password1234;Encrypt=True;TrustServerCertificate=False;
+        - SqlServer__ConnectionString=Server=sqlserver;Database=OrderDb;User Id=sa;Password=Password1234;Encrypt=False;TrustServerCertificate=False;
       depends_on:
         - mongodb
         - sqlserver
+  
+  # Descomentar para rodar o frontend pelo Docker
+
+  # frontend:
+  #     build:
+  #       context: ./frontend
+  #       dockerfile: Dockerfile
+  #     ports:
+  #       - "3000:5174"
+  #     depends_on:
+  #       - backend
      
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
