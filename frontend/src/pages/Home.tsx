@@ -19,7 +19,7 @@ export const Home = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:5235/api/Products/products");
+        const response = await fetch("http://localhost:8080/api/Products/products");
         if (!response.ok) {
           throw new Error("Erro ao buscar produtos");
         }
@@ -63,7 +63,7 @@ export const Home = () => {
     });
     clearCart()
 
-    fetch("http://localhost:5235/api/Orders", {
+    fetch("http://localhost:8080/api/Orders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

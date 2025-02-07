@@ -30,7 +30,7 @@
     useEffect(() => {
       const fetchOrders = async () => {
         try {
-          const response = await fetch("http://localhost:5235/api/OrderRead");
+          const response = await fetch("http://localhost:8080/api/OrderRead");
           if (!response.ok) {
             throw new Error("Erro ao buscar pedidos");
           }
@@ -84,7 +84,7 @@
       setOrders((prevOrders) => prevOrders.filter((order) => order.orderId !== orderId));
       closeModal();
 
-      fetch(`http://localhost:5235/api/Orders/${orderId}`, {
+      fetch(`http://localhost:8080/api/Orders/${orderId}`, {
         method: "DELETE",
       })
         .then(response => response.json())
@@ -130,7 +130,7 @@
         
         setStatusModalOpen(false);
 
-        fetch(`http://localhost:5235/api/Orders/${selectedOrder.orderId}/status`, {
+        fetch(`http://localhost:8080/api/Orders/${selectedOrder.orderId}/status`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ status: statusEnum.enumValue }), 
