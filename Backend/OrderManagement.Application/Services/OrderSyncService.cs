@@ -55,10 +55,6 @@ namespace OrderManagement.Application.Services
             }
             else
             {
-                //await _orderWriteRepository.UpdateOrderAsync(order);
-
-
-                // Filtrando pelo OrderId em vez de Id (que é o campo imutável)
                 var filter = Builders<OrderMongoModel>.Filter.Eq(o => o.OrderId, order.OrderId);
 
                 var update = Builders<OrderMongoModel>.Update

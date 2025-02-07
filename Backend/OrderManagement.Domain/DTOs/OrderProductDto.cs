@@ -4,16 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderManagement.Domain.Entities
+namespace OrderManagement.Domain.DTOs
 {
-    public class OrderItem
+    public class OrderProductDto
     {
-        public Guid Id { get; set; }
-        public Guid OrderId { get; set; }
         public Guid ProductId { get; set; }
-        public string ProductName { get; set; } = string.Empty;
         public int Quantity { get; set; }
-        public decimal UnitPrice { get; set; }
         public decimal TotalPrice { get; set; }
+        public string Name { get; set; } = string.Empty;
     }
+
 }

@@ -114,10 +114,10 @@ using (var scope = app.Services.CreateScope())
     context.Database.EnsureCreated();  // Cria o banco de dados, caso não exista
 }
 
-using (var scope = app.Services.CreateScope())
-{
-    var dataSeeder = scope.ServiceProvider.GetRequiredService<IOrderWriteRepository>();
-    await dataSeeder.SeedDataAsync();  // Seeder de dados no MongoDB
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var dataSeeder = scope.ServiceProvider.GetRequiredService<IOrderWriteRepository>();
+//    await dataSeeder.SeedDataAsync();  // Seeder de dados no MongoDB
+//}
 
 app.Run();

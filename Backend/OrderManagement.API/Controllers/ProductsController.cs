@@ -31,7 +31,7 @@ namespace OrderManagement.API.Controllers
 
         [HttpPost]
         [Route("products")]
-        public async Task<ActionResult<string>> CreateProductAsync([FromBody] Product product)
+        public async Task<ActionResult<Product>> CreateProductAsync([FromBody] Product product)
         {
             if (product == null)
             {

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OrderManagement.Application.Commands;
 using OrderManagement.Application.Handlers;
 using OrderManagement.Application.Queries;
+using OrderManagement.Domain.DTOs;
 using OrderManagement.Domain.Entities;
 using OrderManagement.Domain.Enums;
 using System;
@@ -48,18 +49,44 @@ namespace OrderManagement.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddOrder([FromBody] Order order)
+        public async Task<IActionResult> AddOrder([FromBody] OrderDto orderDto)
         {
-            order.CustomerId = Guid.Parse("BEB70355-350D-4C03-B3DD-608C2D7C6ECB");
+            if (orderDto == null || orderDto.Products == null || !orderDto.Products.Any())
+            {
+                return BadRequest("Os dados do pedido são inválidos.");
+            }
+
+            var orderId = Guid.NewGuid();
+
+            var order = new Order
+            {
+                Id = orderId,
+                CustomerId = Guid.Parse("BEB70355-350D-4C03-B3DD-608C2D7C6ECB"),
+                TotalAmount = orderDto.TotalAmount,
+                OrderItems = orderDto.Products.Select(p => new OrderItem
+                {
+                    Id = Guid.NewGuid(),
+                    OrderId = orderId,
+                    ProductName = p.Name,
+                    ProductId = p.ProductId,
+                    Quantity = p.Quantity,
+                    TotalPrice = p.TotalPrice
+                }).ToList(),
+                OrderDate = DateTime.Now,
+                Status = OrderStatus.Pending
+            };
+
             var result = await _mediator.Send(new CreateOrderCommand(order));
 
             if (result == null)
             {
-                return BadRequest();
+                return BadRequest("Não foi possível criar o pedido.");
             }
 
             return CreatedAtAction(nameof(GetOrderById), new { id = result.Id }, result);
         }
+
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrderById(Guid id)
@@ -109,7 +136,7 @@ namespace OrderManagement.API.Controllers
         }
 
         [HttpPut("{id}/status")]
-        public async Task<IActionResult> UpdateOrderStatus(Guid id, [FromBody] OrderStatus status)
+        public async Task<IActionResult> UpdateOrderStatus(Guid id, [FromBody] UpdateOrderStatusRequestDto request)
         {
             var order = await _mediator.Send(new GetOrderByIdQuery(id));
 
@@ -118,17 +145,11 @@ namespace OrderManagement.API.Controllers
                 return NotFound();
             }
 
-            order.Status = status;
-            var result = await _mediator.Send(new UpdateOrderByIdCommand(order));
+            order.Status = (OrderStatus)request.Status;
+            await _mediator.Send(new UpdateOrderByIdCommand(order));
 
-            if (result == null)
-            {
-                return BadRequest();
-            }
-
-            return Ok(result);
+            return NoContent(); 
         }
 
-        
     }
 }
