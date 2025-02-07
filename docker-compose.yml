@@ -20,7 +20,7 @@ services:
         - SqlServer__ConnectionString=Server=sqlserver;Database=OrderDb;User Id=sa;Password=Password1234;Encrypt=True;TrustServerCertificate=True;
       depends_on:
         - mongodb
-        - 
+        - sqlserver
       entrypoint: /bin/sh -c "until nc -z -v -w30 sqlserver 1433; do echo 'Waiting for SQL Server'; sleep 5; done; until nc -z -v -w30 mongodb 27017; do echo 'Waiting for MongoDB'; sleep 5; done; dotnet OrderManagement.API.dll"
 
 
