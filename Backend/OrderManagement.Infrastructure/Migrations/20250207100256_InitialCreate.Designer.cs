@@ -12,8 +12,8 @@ using OrderManagement.Infrastructure.Data;
 namespace OrderManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250202144849_AddTotalPriceToOrderItems")]
-    partial class AddTotalPriceToOrderItems
+    [Migration("20250207100256_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,6 @@ namespace OrderManagement.Infrastructure.Migrations
                             Email = "john.doe@example.com",
                             Name = "John Doe",
                             Phone = "123-456-7890"
-                        },
-                        new
-                        {
-                            Id = new Guid("ee4e3b6e-123d-4ef0-b44d-3cb2217bb48a"),
-                            Email = "jane.smith@example.com",
-                            Name = "Jane Smith",
-                            Phone = "098-765-4321"
                         });
                 });
 
@@ -89,19 +82,27 @@ namespace OrderManagement.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b3475369-74bb-4f50-b17e-d50a3a3c09c7"),
+                            Id = new Guid("766aba8f-8c06-48a0-a939-41879f27be5a"),
                             CustomerId = new Guid("beb70355-350d-4c03-b3dd-608c2d7c6ecb"),
-                            OrderDate = new DateTime(2025, 2, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            OrderDate = new DateTime(2025, 2, 2, 14, 7, 7, 1, DateTimeKind.Unspecified),
                             Status = 0,
-                            TotalAmount = 250.00m
+                            TotalAmount = 76.00m
                         },
                         new
                         {
                             Id = new Guid("3db07c1e-94b2-41fa-b9c3-8a8cc6a4fba1"),
-                            CustomerId = new Guid("ee4e3b6e-123d-4ef0-b44d-3cb2217bb48a"),
+                            CustomerId = new Guid("beb70355-350d-4c03-b3dd-608c2d7c6ecb"),
                             OrderDate = new DateTime(2025, 2, 1, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = 0,
-                            TotalAmount = 450.00m
+                            TotalAmount = 78.00m
+                        },
+                        new
+                        {
+                            Id = new Guid("99b6bce5-9884-461b-9a45-8cfeb66b8804"),
+                            CustomerId = new Guid("beb70355-350d-4c03-b3dd-608c2d7c6ecb"),
+                            OrderDate = new DateTime(2025, 2, 2, 1, 53, 26, 132, DateTimeKind.Unspecified),
+                            Status = 0,
+                            TotalAmount = 128.00m
                         });
                 });
 
@@ -124,6 +125,10 @@ namespace OrderManagement.Infrastructure.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("TotalPrice");
+
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(18,2)");
 
@@ -136,21 +141,53 @@ namespace OrderManagement.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8979bfc9-7746-42c5-ae2f-d1e349dd96ff"),
-                            OrderId = new Guid("b3475369-74bb-4f50-b17e-d50a3a3c09c7"),
-                            ProductId = new Guid("f04acbb2-9c97-4fae-853b-e1c1e52715a2"),
-                            ProductName = "Product A",
+                            Id = new Guid("11b23121-17ed-4b15-9dd2-2a9dc3cc288c"),
+                            OrderId = new Guid("766aba8f-8c06-48a0-a939-41879f27be5a"),
+                            ProductId = new Guid("19bb2513-fedf-44b6-c44c-08dd43d9cd34"),
+                            ProductName = "Calabresa",
+                            Quantity = 1,
+                            TotalPrice = 24.00m,
+                            UnitPrice = 24.00m
+                        },
+                        new
+                        {
+                            Id = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                            OrderId = new Guid("766aba8f-8c06-48a0-a939-41879f27be5a"),
+                            ProductId = new Guid("1a44f41f-b7d2-41c9-9497-0bc2c1a2613b"),
+                            ProductName = "Marguerita",
                             Quantity = 2,
-                            UnitPrice = 100.00m
+                            TotalPrice = 52.00m,
+                            UnitPrice = 26.00m
                         },
                         new
                         {
                             Id = new Guid("d3158cfc-72e9-43a7-9b5e-34e2d9a55f61"),
                             OrderId = new Guid("3db07c1e-94b2-41fa-b9c3-8a8cc6a4fba1"),
                             ProductId = new Guid("1a44f41f-b7d2-41c9-9497-0bc2c1a2613b"),
-                            ProductName = "Product B",
+                            ProductName = "Marguerita",
                             Quantity = 3,
-                            UnitPrice = 150.00m
+                            TotalPrice = 78.00m,
+                            UnitPrice = 26.00m
+                        },
+                        new
+                        {
+                            Id = new Guid("3fa85f64-5717-4562-c3fc-3c963f66afa6"),
+                            OrderId = new Guid("99b6bce5-9884-461b-9a45-8cfeb66b8804"),
+                            ProductId = new Guid("f04acbb2-9c97-4fae-853b-e1c1e52715a2"),
+                            ProductName = "Quatro queijos",
+                            Quantity = 2,
+                            TotalPrice = 80.00m,
+                            UnitPrice = 40.00m
+                        },
+                        new
+                        {
+                            Id = new Guid("c66cfce9-b460-4ad5-b7c3-f6f70370fb99"),
+                            OrderId = new Guid("99b6bce5-9884-461b-9a45-8cfeb66b8804"),
+                            ProductId = new Guid("19bb2513-fedf-44b6-c44c-08dd43d9cd34"),
+                            ProductName = "Calabresa",
+                            Quantity = 2,
+                            TotalPrice = 48.00m,
+                            UnitPrice = 24.00m
                         });
                 });
 
@@ -174,15 +211,21 @@ namespace OrderManagement.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f04acbb2-9c97-4fae-853b-e1c1e52715a2"),
-                            Name = "Product A",
-                            Price = 100.00m
+                            Id = new Guid("19bb2513-fedf-44b6-c44c-08dd43d9cd34"),
+                            Name = "Calabresa",
+                            Price = 24.00m
                         },
                         new
                         {
                             Id = new Guid("1a44f41f-b7d2-41c9-9497-0bc2c1a2613b"),
-                            Name = "Product B",
-                            Price = 150.00m
+                            Name = "Marguerita",
+                            Price = 26.00m
+                        },
+                        new
+                        {
+                            Id = new Guid("f04acbb2-9c97-4fae-853b-e1c1e52715a2"),
+                            Name = "Quatro queijos",
+                            Price = 40.00m
                         });
                 });
 

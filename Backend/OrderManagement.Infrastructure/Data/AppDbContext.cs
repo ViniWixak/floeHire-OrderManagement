@@ -34,8 +34,10 @@ namespace OrderManagement.Infrastructure.Data
                 .HasColumnType("decimal(18,2)");
 
             modelBuilder.Entity<OrderItem>()
-                .Property(oi => oi.TotalPrice)
-                .HasColumnType("decimal(18,2)");
+                .Property(o => o.TotalPrice)
+                .HasColumnName("TotalPrice")
+                .HasColumnType("decimal(18,2)")
+                .IsRequired();
 
             // Seeding Customers
             modelBuilder.Entity<Customer>().HasData(
