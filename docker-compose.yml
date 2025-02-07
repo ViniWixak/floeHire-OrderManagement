@@ -21,10 +21,7 @@ services:
       depends_on:
         - mongodb
         - sqlserver
-      entrypoint: /bin/sh -c "until nc -z -v -w30 sqlserver 1433; do echo 'Waiting for SQL Server'; sleep 5; done; until nc -z -v -w30 mongodb 27017; do echo 'Waiting for MongoDB'; sleep 5; done; dotnet OrderManagement.API.dll"
-
-
-
+     
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: sqlserver
