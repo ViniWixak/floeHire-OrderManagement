@@ -15,7 +15,8 @@ namespace OrderManagement.Application.Commands
 
         public UpdateOrderByIdCommand(Order order)
         {
-            CustomerId = order.CustomerId;
+            Id = order.Id;
+            CustomerId = order.CustomerId;           
             OrderItems = order.OrderItems;
             TotalAmount = order.TotalAmount;
             OrderDate = order.OrderDate;

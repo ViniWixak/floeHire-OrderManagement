@@ -36,6 +36,7 @@ namespace OrderManagement.Application.Handlers.Orders
 
             var orderMongoModel = new OrderMongoModel
             {
+                Id = MongoDB.Bson.ObjectId.GenerateNewId().ToString(),
                 OrderId = order.Id,
                 OrderDate = order.OrderDate,
                 TotalAmount = order.TotalAmount,

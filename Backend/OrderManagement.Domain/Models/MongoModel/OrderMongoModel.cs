@@ -12,7 +12,7 @@ namespace OrderManagement.Domain.Models.MongoModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string? Id { get; set; } // ID do MongoDB
+        public string Id { get; set; } = ObjectId.GenerateNewId().ToString(); // ID do MongoDB
 
         [BsonRepresentation(BsonType.String)]
         public Guid OrderId { get; set; } // ID original do pedido no SQL Server

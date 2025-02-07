@@ -1,4 +1,5 @@
-﻿using OrderManagement.Domain.Interfaces;
+﻿using MongoDB.Driver;
+using OrderManagement.Domain.Interfaces;
 using OrderManagement.Domain.Interfaces.Mongo;
 using OrderManagement.Domain.Models.MongoModel;
 
@@ -8,11 +9,13 @@ namespace OrderManagement.Application.Services
     {
         private readonly IOrderWriteRepository _orderWriteRepository;
         private readonly IOrderReadRepository _orderReadRepository;
+        private readonly IMongoCollection<OrderMongoModel> _mongoCollection;
 
-        public OrderSyncService(IOrderWriteRepository orderWriteRepository, IOrderReadRepository orderReadRepository)
+        public OrderSyncService(IOrderWriteRepository orderWriteRepository, IOrderReadRepository orderReadRepository, IMongoCollection<OrderMongoModel> mongoCollection)
         {
             _orderWriteRepository = orderWriteRepository;
             _orderReadRepository = orderReadRepository;
+            _mongoCollection = mongoCollection;
         }
 
         public async Task SyncOrderToMongo(OrderMongoModel order)
@@ -52,8 +55,22 @@ namespace OrderManagement.Application.Services
             }
             else
             {
-                await _orderWriteRepository.UpdateOrderAsync(order);
+                //await _orderWriteRepository.UpdateOrderAsync(order);
+
+
+                // Filtrando pelo OrderId em vez de Id (que é o campo imutável)
+                var filter = Builders<OrderMongoModel>.Filter.Eq(o => o.OrderId, order.OrderId);
+
+                var update = Builders<OrderMongoModel>.Update
+                    .Set(o => o.OrderDate, order.OrderDate)
+                    .Set(o => o.TotalAmount, order.TotalAmount)
+                    .Set(o => o.OrderItems, existingOrder.OrderItems)
+                    .Set(o => o.Status, order.Status);
+
+                // Aplicar a atualização no MongoDB sem tocar no campo _id
+                await _mongoCollection.UpdateOneAsync(filter, update);
             }
         }
+
     }
 }
