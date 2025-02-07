@@ -16,6 +16,7 @@ using MongoDB.Driver;
 using OrderManagement.Application.Services;
 using OrderManagement.Domain.Interfaces.Mongo;
 using OrderManagement.Domain.Models.MongoModel;
+using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -106,4 +107,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dataSeeder = scope.ServiceProvider.GetRequiredService<IOrderWriteRepository>();
+    await dataSeeder.SeedDataAsync();  // Seeder de dados no MongoDB
+}
+
 app.Run();

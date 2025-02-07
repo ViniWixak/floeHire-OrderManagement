@@ -7,6 +7,7 @@ namespace OrderManagement.Domain.Interfaces.Mongo
         Task InsertOrderAsync(OrderMongoModel order);
         Task UpdateOrderAsync(OrderMongoModel order);
         Task DeleteOrderAsync(Guid orderId);
+        Task SeedDataAsync();
     }
 
 }
