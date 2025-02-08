@@ -17,11 +17,18 @@ using OrderManagement.Application.Services;
 using OrderManagement.Domain.Interfaces.Mongo;
 using OrderManagement.Domain.Models.MongoModel;
 using System.Data;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"),
+        sqlServerOptions => sqlServerOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(10),
+            errorNumbersToAdd: null
+        )));
+
 
 var mongoSettings = builder.Configuration.GetSection("MongoSettings").Get<MongoDbSettings>();
 
